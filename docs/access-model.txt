@@ -1,0 +1,31 @@
+
+Access Model (Who is allowed to see what)
+Data visibility playbook
+
+This document defines how users identity and group is determined to access the knowledge available in the system.
+It answers these questions.
+1. Who is the user/s within the scope of AI KB (Hermes)?
+2. Which identity attributes matter for accessing the knowledge?
+3. What groups exist?
+4. What are the data classes?
+5. Which groups are allowed to see what data classes?
+4+5. How are identity groups mapped to document or chunk classifications?
+
+1. Users are authentiated via identity and access management (IAM) system. Unique identifier[objectGUID/onPremisesImmutableId in AD/Entra] to be used for idnetity rather then just user names or things that can be changed.
+ 
+2. Group memberships to detemine the access allowed for the role, directory roles can help elevate or add cross-domain access. This is not hierarchical but rather based on business function and explicit data-access entitlements. This help to get correct indexed contenet and security reinforement.
+
+3. Executives, managerial, HR, Financial, payrole, IT, Marketing groups.
+
+4+5. Document or chunk classifications should have predefined identifier to determine what can be accessed. These identifier represent required data access entitlements. At retrival stage only these chucckes that have correct identifier with the users identity group are elegible. In other words the identity groups that intersect the correct chunk based on the classifications are the only ones that are allowed to get to retrival phase. This way chunks that are not authoriesd dont reach the model and user is notified as such thus preventing leaks early on.
+
+Classification table
+
+Data Classification					Access Group Requirement
+Public/internal						General_info_group
+Executives_reference				Exec_only_group
+HR_Policy							HR_only_group
+HR_PII								HR_sensitive_group
+Finance_general						Finance_only_group
+Payrol_PII							Payrole_sensitive_group
+

@@ -1,0 +1,79 @@
+Retrieval-Flow.md
+This document explains what happens when.......
+
+The runtime behaviour, failure modes and safe interaction with AI is explained here.
+
+1. What happens when a user submits a query?
+	a.How a request enters the system?
+	b.What context is captured (user identity, request metadata)?
+	c.What assumptions are made before processing begins?
+When a valid user makes a request system take in the immutable id, checks the system for the identity claim and request metadata. No data is touched at this stage.
+2️. How is the user’s identity resolved for the request?
+	a.How the system determines who is making the request
+	b.Which identity claims are evaluated
+	c.What happens if identity resolution fails
+This connects to — but does not redefine — the access model.
+
+The users ID is validate using IAM, the results from IAM is the source of truth. Once all the security attribute and immutable ID is confirmed only then the identity is valid. As the IAM already validate the user, Authentication establishes identity; authorisation is evaluated later. This step produces an authoritative identity context for the request. Only the user/requester is trusted and thats all
+
+3️. How is the request evaluated for sensitivity or intent?
+	a. Is the question about general knowledge or sensitive data?
+	b. Are there keywords or patterns that require stricter handling?
+	c. Are certain requests immediately blocked or rerouted?
+
+This is where intervention logic starts.
+
+None of the request coming in are allowed to trigger data retrieval unless its intent and risk is evaluated.All requests that come in are first triaged under safe, risky and prohibited. Certain keywords and patterns are analyzed to help the triage process. Only after passing this filter can data retrieval request can be made. If a request fails to go through this filter, the requester/user is notified as such and the logs of the request and the user is stored for review later.
+
+4️. How is retrieval constrained by access rules?
+
+	a. How document/chunk classifications are filtered
+	b. How identity group intersection is applied
+	c. What happens if no authorised content exists
+This is the security-trimmed retrieval step.
+
+Since the user is already validated and request is associated with an authenticated identity to ask for data the next logical stage is to evaluate the access of metadata to decide authorisation. The state of data that needs to be checked includes but not limited to chunk classification metadata, access entitlements and user group& directory role . The data classification separates the data in the metadata levels. Based on the user group and directory roles and the access control classification table the intersecting data is now retrieved.
+
+
+5️. What happens when authorised content is found?
+	a. How many chunks are selected
+	b. How context is prepared for the model
+	c. What metadata (citations, source info) is retained
+This explains how the model is grounded.
+
+Once authorized content is found, the top 5-10 chunks related to the request are made ready to push to the model. This help reduce token expense and reduce hallucination. At this stage the data is not available for the user yet. The data at this stage is to be structured and ready to be injected as grounding context. The citations and source info are to be retained for verification and future audits to maintain the system integrity.
+
+
+6️. What happens when no authorised content is found?
+	a. How the system responds (refusal, redirection, escalation)
+	b. How this is communicated to the user
+	c. What is explicitly not revealed
+This is critical for enterprise trust.
+
+If authorized content is not found, the retrieval process skips. The user is informed that the request cant be processed. The system doesn’t confirm or reveal which rule caused the block. Nor does it expose the internal classification labels and access group names. Depending on the severity of the request against the policies they are either redirected to the correct departments or returned back to the prompt stage. The logs are captured for every requests and the system admin may be notified to review the logs depending on the severity.
+
+7️. How is the response generated and constrained?
+
+	a. What guardrails apply to the model
+	b. How hallucination is reduced
+	c. How source-only responses are enforced
+This explains governed generation, not prompt details.
+
+At this stage the response generated is bounded by what the model can see, allowed to do and allowed to say. It may answer using provided context only, not infer or assume. If the context is not found the model refuses to reply. Hallucination is reduced by using only the top few chunks of data. The sources are referred in the response for the purpose of validity.
+
+
+8️. What is logged and why?	
+	a. What data is recorded for audit and investigation
+	b. What is excluded from logs to protect privacy
+	c. How logs support compliance and cost oversight
+This ties directly into governance, but from a runtime view.
+
+The thing to be logged, request ID, timestamp, user immutable ID, request classification at a high level, result of the retrieval, access decision, token used. For privacy and risk reduction content of retrieval, full prompts and response is not recorded. If there is a repeated pattern to probe for data then this is flagged for review.
+
+9️. What happens after the response is delivered?
+	a. Success vs failure handling
+	b. Metrics collected
+	c. Signals for future review or improvement
+This closes the loop.
+
+After a successful response, token usages, latency, normal logs are recorded. Any anomalies are also recorded for future reference. In case of failure, the reason for failure is recorded along with any trend analysis and then user is redirected safely. These record overtime help refine access rules adjust classification fine tine any guardrails in place. This help to make necessary changes overtime to improve the system further.
