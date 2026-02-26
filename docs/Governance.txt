@@ -146,18 +146,3 @@ Purpose: governance itself must be governed.
 
 ---
 
-# How to proceed (recommended)
-
-1. Start with **Section 1: Purpose and Scope**
-2. Write it in your own words (short and clear)
-3. Paste it here
-4. I’ll:
-
-   * assess correctness
-   * flag gaps
-   * help tighten language
-   * **not rewrite unless you ask**
-
-We’ll move section-by-section until governance.md is complete.
-
-When you’re ready, go ahead and draft **Section 1**.
