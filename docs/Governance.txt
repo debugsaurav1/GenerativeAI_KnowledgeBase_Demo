@@ -12,9 +12,9 @@ Purpose: set boundaries and prevent scope creep.
 
 This section provides the scope and purpose of the GenAI KnowledgeBase system. It sets the boundaries and prevent scope creeping.
 
-This applies souly to the AI generated KnowledgeBase system ie Hermies. It is consigered all the outer source of data has been governed elsewhere ie verification and data checks are done by there own respective systems. No checks are done on the output after delivery but during the runtime and during generation.
+This applies only to the AI generated KnowledgeBase system ie Hermes. It is considered all the outer source of data has been governed elsewhere i.e verification and data checks are done by their own respective systems. No checks are done on the output after delivery but during the runtime and during generation.
 
-It define runtime behaviour, access control,log recording and oversight.
+It define runtime behavior, access control, log recording and oversight.
 
 
 ---
@@ -24,10 +24,85 @@ It define runtime behaviour, access control,log recording and oversight.
 **Answers:**
 
 * What guiding principles does this system follow?
-* How are security, privacy, and accountability prioritised?
+* How are security, privacy, and accountability prioritized?
 * What trust model underpins the system?
 
 Purpose: define *how decisions are made*, not just what they are.
+
+The governance principles define a set of guidelines under which Hermes is designed, operated and oversighted. These principles are independents of the platform and are applied regardless of the underlying technology that’s implemented.
+
+2.1 Zero-Trust Architecture
+This system is built under zero trust model. None of the components requests or users are trusted implicitly.
+
+Every identity needs to be verified for every request.
+Any type of access need to explicitly authorized.
+Retrieval must be constrained by policy.
+Generation must be bounded by authorized context.
+
+Trust with the system and its components is evaluated continuously against each boundary which is never assumed or inherited.
+
+2.2 Least Privilege Enforcement
+Hermes forces least privilege access at the finest granularity possible.
+
+Users receive access only if:
+- They are authorized to view the information.
+- the policy explicitly permits the content.
+- the current request requires the data being accessed.
+
+Each classified chunk is individually authorized and not just at the document level.
+
+2.3 Deterministic Access Control
+
+All access is deterministic and can be reproduced. 
+Authorization is based on:
+-Authoritative identity context.
+-Defined policy rules.
+-Metadata classification. 
+
+AI-Driven interface is strictly not permitted in access control evaluation.
+If the authorization is not absolutely certain the access is denied.
+
+
+2.4 Guarded Generation
+Hermes doesn’t guess or infer context beyond authorized material.
+
+The model is bounded by:
+-retrieved authorized content 
+-Explicit system constraints
+-Defined response guardrails
+
+Response to the quires must remain grounded in retrieved source and avoid extrapolation.
+
+2.5 Explicit Denial and Fail-Closed Default
+Hermes default is set to denial when:
+-identity validation fails
+-Authorization cant be resolved.
+-Policy evaluation is inconclusive
+-retrieval constraints are violated
+The denial should not confirm the existence of the data or any other policy logic behind this behaviors.
+
+2.6 Separation of Governance and Runtime control
+Governance defines
+what must happen
+what is permitted
+what is disallowed/prohibited.
+
+Runtime follow the rules set by the governance and don’t redefine them or create new ones.
+
+This marks a clear boundary for accountability and auditability.
+
+
+2.7 Accountability and Auditability
+
+All the decisions and system access at all levels are logged and made traceable for accountability and must be reviewable.
+
+all the logging must support at least one of these things
+-Accountability
+-Security and Policy Compliance
+-Investigation
+-Improvement
+
+Raw data and all sensitive content are not logged under any circumstance.
 
 ---
 
@@ -42,6 +117,8 @@ Purpose: define *how decisions are made*, not just what they are.
 
 Purpose: ensure accountability and avoid ambiguity.
 
+
+
 ---
 
 ## 4. Access and Policy Governance
@@ -51,7 +128,7 @@ Purpose: ensure accountability and avoid ambiguity.
 * How are access rules defined and reviewed?
 * How are data classifications governed?
 * How are changes approved and documented?
-* How are role or organisational changes handled?
+* How are role or organizational changes handled?
 
 Purpose: control evolution of access over time.
 
@@ -79,7 +156,7 @@ Purpose: turn logs into oversight, not surveillance.
 * How is misuse investigated?
 * When is human intervention required?
 
-Purpose: define response to abnormal or risky behaviour.
+Purpose: define response to abnormal or risky behavior.
 
 ---
 
@@ -89,7 +166,7 @@ Purpose: define response to abnormal or risky behaviour.
 
 * What data is explicitly not stored?
 * How is sensitive data protected?
-* How is data minimisation enforced?
+* How is data minimization enforced?
 * How are privacy risks reduced?
 
 Purpose: demonstrate privacy-by-design.
@@ -104,7 +181,7 @@ Purpose: demonstrate privacy-by-design.
 * How is audit evidence produced?
 * How are risks identified and managed?
 
-Purpose: ensure regulatory and organisational alignment.
+Purpose: ensure regulatory and organizational alignment.
 
 ---
 
@@ -145,19 +222,3 @@ Purpose: keep the system safe and relevant long-term.
 Purpose: governance itself must be governed.
 
 ---
-
-# How to proceed (recommended)
-
-1. Start with **Section 1: Purpose and Scope**
-2. Write it in your own words (short and clear)
-3. Paste it here
-4. I’ll:
-
-   * assess correctness
-   * flag gaps
-   * help tighten language
-   * **not rewrite unless you ask**
-
-We’ll move section-by-section until governance.md is complete.
-
-When you’re ready, go ahead and draft **Section 1**.
