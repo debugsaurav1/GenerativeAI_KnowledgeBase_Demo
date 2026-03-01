@@ -117,8 +117,58 @@ Raw data and all sensitive content are not logged under any circumstance.
 
 Purpose: ensure accountability and avoid ambiguity.
 
+The structure of Hermes is to ensure clear accountability, defensible decision making and separation of duties.
+
+3.1 System Owner(accountable)
+- owns Business capabilities of Hermes
+-Accountable for risk acceptance and governance outcomes.
+-governance alignment with enterprise risk framework
+-Esclate material risks to executive leaderships.
+
+The system owner doesnt directly change or implement the policy controls.
+
+3.2 Security and Access control Owner (accountable)
+-Define the standards for access control
+-policy integrity review.
+-checking on misuse signals 
+-approving chnages to the access model together with Data Owners.
+
+Security alone doent control data classifications.
+
+3.3 Data Owners (accountable)
+Every data stream has its data Owner and responsible for:
+- accurate classification of the data.
+- mapping data entitlement
+- approve of access rules which may impact theire data domain.
+- regular access recertifiaction (per defined time intervals)
+
+Each data owner must individually and formally approve any changes thats being made that can affect their data exposure risks.
 
 
+3.4 Platform Engineering(Responsible)
+They are responsible for:
+-approved governance controls implementations
+- reliability of the operating systems.
+- make sure fail-close mechanism is enforced correctly.
+
+Engineering cnat approve policy change or override governance controls.
+
+3.5 Risk and Governance Committee (oversight)
+
+Provides independent oversight for:
+- policy changes
+- governance effectivness metrics
+- Risk posture reporting
+- material incidents
+
+This commitee ensures independent review beyond the operational teams.
+
+Basic overview of roles and responsibilities
+System Owner: Chief Information Officer (CIO).
+Executive Sponsor: Chief Risk Officer (CRO).
+Oversight: AI Risk & Ethics Committee.
+Change Approval: Formal Change Advisory Board (CAB).
+Incident Response: Security Operations + Compliance + Legal.
 ---
 
 ## 4. Access and Policy Governance
