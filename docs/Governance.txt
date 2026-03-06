@@ -2,185 +2,228 @@ Governance.md
 
 ## 1. Purpose and Scope
 
-**Answers:**
+This section defines the governance boundary of the Hermes GenAI KnowledgeBase system and establishes the scope within which governance controls apply.It clarifies the responsibilities, operational boundaries, and control domains governed by this framework.
 
-* What system does this governance apply to?
-* What aspects of the system are governed?
-* What is explicitly out of scope?
+1.1 Control Objective
 
-Purpose: set boundaries and prevent scope creep.
 
-This section provides the scope and purpose of the GenAI KnowledgeBase system. It sets the boundaries and prevent scope creeping.
+- The governance frameworkSHALL define and enforce the operational boundary of Hermes to ensure regulatory clarity,and that accountability, risk ownership and access control decision are explicitly assigned, reviewable and auditable.
 
-This applies only to the AI generated KnowledgeBase system ie Hermes. It is considered all the outer source of data has been governed elsewhere i.e verification and data checks are done by their own respective systems. No checks are done on the output after delivery but during the runtime and during generation.
+1.2 Scope of Governance
 
-It define runtime behavior, access control, log recording and oversight.
+- This governance document applies only to the AI generated KnowledgeBase system, Hermes.
+- The framework SHALL govern runtime behavior, access control enforcement, retrieval constraints, generation guardrails, logging, and oversight mechanisms.
+- Hermes SHALL enforce governance controls at request time prior to any retrieval or generation.
+
+1.3 Explicitly Out of Scope
+- HermesSHALL NOT be responsible for upstream data validation, data classification accuracy, or governance controls implemented by source systems. 
+- Upstream systems SHALL maintain independent governance and control frameworks.
+- Generated outputSHALL NOT be persistently stored beyond runtime execution unless governed by an approved retention policy.
+
+1.4 Boundary of Responsibility
+
+- The system owner SHALL be accountable for governance oversight and risk acceptance relating to Hermes.
+- Platform operations manager SHALL be responsible for operational enforcement of governance controls defined in this document.
+ - Governance policies defined in this frameworkSHALL NOT be modified or overridden at runtime by system components or AI models.
 
 
 ---
 
 ## 2. Governance Principles
 
-**Answers:**
-
-* What guiding principles does this system follow?
-* How are security, privacy, and accountability prioritized?
-* What trust model underpins the system?
-
-Purpose: define *how decisions are made*, not just what they are.
-
 The governance principles define a set of guidelines under which Hermes is designed, operated and oversighted. These principles are independents of the platform and are applied regardless of the underlying technology that’s implemented.
 
 2.1 Zero-Trust Architecture
-This system is built under zero trust model. None of the components requests or users are trusted implicitly.
+Hermes SHALL operate under zero trust security model. TrustSHALL NOT be implicitly granted to any user, request or system components.
 
-Every identity needs to be verified for every request.
-Any type of access need to explicitly authorized.
-Retrieval must be constrained by policy.
-Generation must be bounded by authorized context.
+-Every request SHALL include verified identity context.
+-Any access SHALL require explicit authorization.
+-Retrieval SHALL be constrained by authorization policy.
+-Generation SHALL be limited to authorized retrieved context and approved system instructions
 
-Trust with the system and its components is evaluated continuously against each boundary which is never assumed or inherited.
 
 2.2 Least Privilege Enforcement
-Hermes forces least privilege access at the finest granularity possible.
+Hermes SHALL enforce least privilege access control.
 
-Users receive access only if:
-- They are authorized to view the information.
-- the policy explicitly permits the content.
-- the current request requires the data being accessed.
+Access SHALL only be granted when all the following condition are staisfied:
+- Requesting identity is authorized to view the information.
+- Access is explicitly permitted by policy rules.
+- The request context requires access to the information.
 
-Each classified chunk is individually authorized and not just at the document level.
+Authorization SHALL be enforced at the classified content chunk level and SHALL NOT rely solely on document-level access controls.
 
 2.3 Deterministic Access Control
 
-All access is deterministic and can be reproduced. 
-Authorization is based on:
+All access decisions SHALL be deterministic and reproducible. 
+
+
+Authorization decisionsSHALL be based solely on:
 -Authoritative identity context.
 -Defined policy rules.
--Metadata classification. 
+-Metadata classification associated with requested content. 
 
-AI-Driven interface is strictly not permitted in access control evaluation.
-If the authorization is not absolutely certain the access is denied.
+AI modelsSHALL NOT participate in access control or authorization decisions.
+
+AccessSHALL be denied when authorization cannot be deterministically established.
 
 
 2.4 Guarded Generation
-Hermes doesn’t guess or infer context beyond authorized material.
+Hermes' generation SHALL be constrained to authorized retrieved context.
 
-The model is bounded by:
--retrieved authorized content 
--Explicit system constraints
--Defined response guardrails
 
-Response to the quires must remain grounded in retrieved source and avoid extrapolation.
+- Generation SHALL rely only on authorized retrieved content.
+- Generation SHALL be governed by approved system instructions.
+- Generation SHALL comply with defined response guardrails.
+
+Responses SHALL remain grounded in authorized retrived sources.
+
+Generation SHALL NOT rely on model inference beyond authorized context.
 
 2.5 Explicit Denial and Fail-Closed Default
-Hermes default is set to denial when:
+
+Hermes SHALL operate under a fail-closed security model.
+
+Access SHALL be denied when any of the following conditions occur:
 -identity validation fails
--Authorization cant be resolved.
+-Authorization can not be resolved deterministically.
 -Policy evaluation is inconclusive
 -retrieval constraints are violated
-The denial should not confirm the existence of the data or any other policy logic behind this behaviors.
 
-2.6 Separation of Governance and Runtime control
-Governance defines
-what must happen
-what is permitted
-what is disallowed/prohibited.
+The denial response SHALL NOT revewl the existence of the protected data or any internal policy logic behind this behaviors.
 
-Runtime follow the rules set by the governance and don’t redefine them or create new ones.
+2.6 Separation of Governance and Runtime Control
 
-This marks a clear boundary for accountability and auditability.
+Governance SHALL define the policies and control requirements that Hermes must enforce.
+
+Runtime components SHALL enforce the rules set by the governance and SHALL NOT redefine or create new policy rules.
+
+This separation ensures clear accountability and auditability of policy definition and enforcement.
 
 
 2.7 Accountability and Auditability
 
-All the decisions and system access at all levels are logged and made traceable for accountability and must be reviewable.
+All system access and authorization decisions at all levels SHALL be logged. 
 
-all the logging must support at least one of these things
+Logs SHALL be traceable to the originating identity and request context.
+
+Logging SHALL support at least one of these objectives:
 -Accountability
 -Security and Policy Compliance
 -Investigation
 -Improvement
 
-Raw data and all sensitive content are not logged under any circumstance.
+Logs SHALL avoid storing sensitive data unless required for approved security or audit purposes.
 
 ---
 
 ## 3. Roles and Responsibilities
 
-**Answers:**
+The governance structure of Hermes establishes clear accountability, defensible decision-making, and separation of duties.
 
-* Who owns the system?
-* Who is responsible for oversight?
-* Who can approve changes?
-* Who responds to incidents?
+3.1 System Owner(Accountable)
+The system owners SHALL be accountable fr the business capabilities delivered by Hermes.
 
-Purpose: ensure accountability and avoid ambiguity.
+Responsibility includes:
 
-The structure of Hermes is to ensure clear accountability, defensible decision making and separation of duties.
+- Accountability for the business capabilities delivered by Hermes
+- Acceptance of governance and operational risks
+- Ensuring alignment with the enterprise risk management framework
+- Escalating material risks or governance concerns to executive leadership
 
-3.1 System Owner(accountable)
-- owns Business capabilities of Hermes
--Accountable for risk acceptance and governance outcomes.
--governance alignment with enterprise risk framework
--Esclate material risks to executive leaderships.
+The System Owner SHALL NOT directly implement or modify governance controls.
 
-The system owner doesnt directly change or implement the policy controls.
+3.2 Security and Access Control Owner (Accountable)
 
-3.2 Security and Access control Owner (accountable)
--Define the standards for access control
--policy integrity review.
--checking on misuse signals 
--approving chnages to the access model together with Data Owners.
+The Security and Access Control Owner SHALL be accountable for the integrity and effectiveness of Hermes access control standards and authorization policies.
 
-Security alone doent control data classifications.
+Responsibilities include:
 
-3.3 Data Owners (accountable)
-Every data stream has its data Owner and responsible for:
-- accurate classification of the data.
-- mapping data entitlement
-- approve of access rules which may impact theire data domain.
-- regular access recertifiaction (per defined time intervals)
+- Defining and maintaining access control standards and authorization requirements.
+- Reviewing policy integrity and access control effectiveness on a scheduled basis.
+- Monitoring misuse and anomaly signals relating to access enforcement.
+- Approving changes to the access model jointly with relevant Data Owners.
 
-Each data owner must individually and formally approve any changes thats being made that can affect their data exposure risks.
+The Security and Access Control Owner SHALL NOT unilaterally define or modify data classifications, which remain under Data Owner accountability.
+
+3.3 Data Owners (Accountable)
+
+Each data domain integrated into Hermes SHALL have a designated Data Owner accountable for data classification, entitlement definition, and access risk within their domain.
+
+Responsibilities include:
+
+• Ensuring accurate data classification and sensitivity labeling for content made available to Hermes
+• Defining and maintaining entitlement mappings for their data domain
+• Providing formal approval for access rules and policy changes that impact their data domain
+• Performing periodic access recertification at defined intervals to validate continued access needs
+
+Data Owners SHALL provide individual, formal approval for any change that alters data exposure risk within their domain.
 
 
 3.4 Platform Engineering(Responsible)
-They are responsible for:
--approved governance controls implementations
-- reliability of the operating systems.
-- make sure fail-close mechanism is enforced correctly.
+Platform engineer SHALL be responisble for :
+- Implementing approved governance controls and enforcement mechanisms.
+- Ensuring platform reliability, operational resilience, and availability of Hermes.
+- Ensuring fail-closed enforcement operates correctly under failure conditions.
 
-Engineering cnat approve policy change or override governance controls.
+Platform Engineering SHALL NOT approve policy changes or override governance controls.
 
-3.5 Risk and Governance Committee (oversight)
+3.5 Risk and Governance Committee (Oversight)
 
-Provides independent oversight for:
-- policy changes
-- governance effectivness metrics
-- Risk posture reporting
-- material incidents
+The Risk and Governance Committee SHALL provide independent oversight of Hermes governance and risk posture.
 
-This commitee ensures independent review beyond the operational teams.
+The Committee SHALL:
+
+- Review and endorse material policy and access model changes.
+- Review governance effectiveness metrics and control performance signals.
+- Receive and review risk posture reporting and material risk exceptions.
+- Provide oversight of material incidents and ensure corrective actions are tracked to closure.
+
+
+The Committee SHALL ensure independent review and challenge of governance decisions beyond operational teams.
+
+The Committee SHALL escalate material governance concerns and risk exceptions to the Executive Sponsor where required.
+
+3.6 Role Mapping Summary (Informative) 
 
 Basic overview of roles and responsibilities
 System Owner: Chief Information Officer (CIO).
 Executive Sponsor: Chief Risk Officer (CRO).
-Oversight: AI Risk & Ethics Committee.
+Oversight:  Risk & Governance Committee.(AI Risk & Ethics Committee)
 Change Approval: Formal Change Advisory Board (CAB).
 Incident Response: Security Operations + Compliance + Legal.
 ---
 
 ## 4. Access and Policy Governance
 
-**Answers:**
 
-* How are access rules defined and reviewed?
-* How are data classifications governed?
-* How are changes approved and documented?
-* How are role or organizational changes handled?
+4.1 Policy Definition
 
-Purpose: control evolution of access over time.
+AI components SHALL NOT define or infer the access rules.
+
+All access rules SHALL be explicitly documented.
+Policy evaluation SHALL be deterministic and reproducible.
+Policy SHALL be traceable to an accountable owner.
+
+Access to content SHALL be based solely on authoritative identity claims and approved metadata classification.
+
+4.2 Policy change management
+
+- All policy changes SHALL be documented with a business justification.
+- All policy changes SHALL includes a documented Risk-impact assessment aligned with applicable regularation and enterprise risk requiremnts.
+- Policy change approvals SHALL be recorded and include at minimum approval from Security and the relevent Data Owners.
+- All policy changes SHALL require version-control and include change records sufficient to reproduce the policy state at any point in time.
+- Material policy changes SHALL require Risk and Governance Committee review and endorsement.
+- Emergency changes to policy MAY be implement to restore serurity or service continuty but SHALL be retrospectively reviewed and formally approved within a defined timeframe.
+
+- Material changes SHALL include modifications that alter access scope, data exposure risk, enforcement logic, or governance control effectiveness.
+
+4.3 Access Recertifaction/Changes
+
+- Access entitlements SHALL be reviewed at defined intervals.
+- Any recertification for access entitlement SHALL be conducted by data owners for each data domain.
+- Recetification SHALL be triggered at minimum upon role changes, job/title change or policy change that affect entitlement scope.
+- Privilege drift SHALL be monitored reported and corrected to maintatin least privilege access.
+- Entitlements that cannot be recertified SHALL be removed or suspended until recertification is completed.
 
 ---
 
@@ -195,6 +238,37 @@ Purpose: control evolution of access over time.
 
 Purpose: turn logs into oversight, not surveillance.
 
+5.1 Logging scope
+Hermes logs:
+-Token uses
+-authentical requester
+-Users unique imutable id
+-time stamp
+-request identifier
+-Access decision outcomes
+-retrived contents metadata/tags
+
+Hermes doesnt log 
+-full prompts
+-full response
+-retrived containts body. 
+
+5.2 Log access controls
+-Only security and Governance approved roles can view the logs
+-Logs are to be segmented to prevent broad internal visibility
+-Log access itself is record and can be reviewed.
+
+5.3 Audit and Monitoring
+Logs are retained along the enterprise regulatory requirement.
+Material anamolies trigger investigation workflow.
+
+Automated detection are in  places for monitoring
+-repeated denial probing
+-privilege boundary exploration attempts
+- abnormal usages spikes
+- Unusual behavioural pattern
+
+
 ---
 
 ## 6. Incident Handling and Escalation
@@ -207,6 +281,32 @@ Purpose: turn logs into oversight, not surveillance.
 * When is human intervention required?
 
 Purpose: define response to abnormal or risky behavior.
+
+
+6.1 Incident Definition
+
+An incident includes:
+-confirmed or suspected unauthorized access attempts
+-policy circumvention attemps
+-over exposure due to mis-aligned classification of data
+-sytem failure affecting access enforcement
+-governance control breakdown.
+
+6.2 Response Protocol
+
+Every incident requires:
+-immediate containment
+-evidence preservation
+-root cause analysis
+-corrective control implementation.
+
+Material incodents needs formal documentation and governanace reporting.
+
+6.3 Escalation
+Escalation pather is based on severity
+
+Security-> Risk and Compliance -> executive sponsor
+
 
 ---
 
@@ -221,6 +321,33 @@ Purpose: define response to abnormal or risky behavior.
 
 Purpose: demonstrate privacy-by-design.
 
+Data minimization and privacy by design applies to Hermes
+
+7.1 Data Minimization
+The system:
+- stores only metadata required for accountability
+- avoids retention of any sensitive content
+- prevents peristent storage of user queries unless required for audit
+
+
+7.2 Protection Standards
+
+Sensitive governance data is treated as high-value information asset.
+
+Access is:
+-Role-bound
+-Reviewable
+-Revocable
+
+7.3 Risk Reduction Mechanisms
+
+Hermes prevents:
+
+-Confirmation of restricted data existence
+-Inference beyond authorised context
+-Retention of unnecessary personal data
+
+
 ---
 
 ## 8. Compliance and Risk Alignment
@@ -232,6 +359,29 @@ Purpose: demonstrate privacy-by-design.
 * How are risks identified and managed?
 
 Purpose: ensure regulatory and organizational alignment.
+
+
+Hermes governance aligns with strict control expectations.
+
+8.1 Risk Management
+
+Risks are identified and controlled across:
+-Identity lifecycle
+-Retrieval lifecycle
+-Generation lifecycle
+-Logging and oversight lifecycle
+
+Control effectiveness must be demonstrable and reviewable.
+
+8.2 Audit Readiness
+
+Hermes must be capable of producing:
+-Access decision traceability
+-Policy version history
+-Incident documentation
+-Governance approval records
+
+Audit evidence must be reproducible.
 
 ---
 
@@ -246,6 +396,23 @@ Purpose: ensure regulatory and organizational alignment.
 
 Purpose: control operational and financial risk.
 
+
+Usage is governed as both financial and operational risk.
+
+9.1 Monitoring
+
+System usage is monitored for:
+-Volume anomalies
+-Cost spikes
+
+Behaviour inconsistent with user role
+
+9.2 Controls
+
+Usage thresholds are defined.
+Breaches trigger review and potential access restriction.
+Executive reporting may be required for sustained abnormal consumption.
+
 ---
 
 ## 10. Continuous Review and Improvement
@@ -259,6 +426,24 @@ Purpose: control operational and financial risk.
 
 Purpose: keep the system safe and relevant long-term.
 
+Governance evolves through controlled, risk-aware refinement.
+
+10.1 Review Cycle
+
+Governance must be reviewed:
+- At defined periodic intervals
+-After material incident
+-After material system change
+
+10.2 Change Discipline
+
+All governance updates require:
+-Version control
+-Approval documentation
+-Impact assessment
+
+No governance relaxation occurs without explicit risk acceptance.
+
 ---
 
 ## 11. Governance Review and Ownership
@@ -271,4 +456,11 @@ Purpose: keep the system safe and relevant long-term.
 
 Purpose: governance itself must be governed.
 
+This governance document:
+-Has a named accountable owner
+-Is version-controlled
+-Is subject to scheduled review
+-Requires executive approval for material revision
+
+Governance itself is a controlled asset.
 ---
