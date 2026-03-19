@@ -225,87 +225,84 @@ Access to content SHALL be based solely on authoritative identity claims and app
 - Privilege drift SHALL be monitored reported and corrected to maintatin least privilege access.
 - Entitlements that cannot be recertified SHALL be removed or suspended until recertification is completed.
 
+4.4 Policy Exception/ Break-Glass Access
+
+- Policy exceptions SHALL only be permitted for defined emergency scenarios.
+- Break-Glass access SHALL require documented justification and approval by Security and the relevant Data Owner(s). Material exceptions SHALL also require Risk and Governance Committee oversight.
+- Break-Glass access SHALL be time-bound, least-privilege, and automatically revoked upon expiry.
+- All Break-Glass activity SHALL be logged, including approver identity, scope of access granted, duration, and actions performed.
+- Break-Glass access exceptions SHALL be retrospectively reviewed within a defined timeframe and corrective actions SHALL be tracked to closure. 
+- 
 ---
 
 ## 5. Logging, Audit, and Monitoring
 
-**Answers:**
-
-* What logs exist?
-* Who can access logs?
-* How long are logs retained?
-* What triggers review or investigation?
-
-Purpose: turn logs into oversight, not surveillance.
+The section defines what kind of information are logged for audit and accountability and what are not logged.
 
 5.1 Logging scope
-Hermes logs:
--Token uses
--authentical requester
--Users unique imutable id
--time stamp
--request identifier
--Access decision outcomes
--retrived contents metadata/tags
 
-Hermes doesnt log 
--full prompts
--full response
--retrived containts body. 
+Hermes SHALL log the following for audit and accountability purposes:
+- authenticated requester
+- Immutable user id
+- time stamp for requests
+- request identifier
+- Access decision outcome
+- metadata of retrieved contents such as classification tags, document identifiers, policy version applied.
+
+Hermes SHALL NOT log full prompts or response unless required for approved security/ audit investigation and covered by retention rules.
+
 
 5.2 Log access controls
--Only security and Governance approved roles can view the logs
--Logs are to be segmented to prevent broad internal visibility
--Log access itself is record and can be reviewed.
+-Only approved Security and Governance roles SHALL be permitted to view the logs in accordance with least-privilege access.
+-Logs SHALL be segmented to prevent broad internal visibility and limit access by function and sensitivity.
+-Log access itself SHALL be recorded and SHALL be subjected to periodic review.
 
 5.3 Audit and Monitoring
-Logs are retained along the enterprise regulatory requirement.
-Material anamolies trigger investigation workflow.
+Logs SHALL be retained in accordance with enterprise retention policies and applicable regulatory requirements.
+Material anomalies SHALL trigger an investigation workflow in accordance with incident management procedures.
 
-Automated detection are in  places for monitoring
--repeated denial probing
--privilege boundary exploration attempts
-- abnormal usages spikes
-- Unusual behavioural pattern
+Automated detection SHALL be in  place for monitoring:
+- repeated denial probing or enumeration attempts.
+- privilege boundary exploration attempts.
+- abnormal usage spikes or cost anomalies.
+- Unusual behavioural patterns inconsistent with role or baseline activity.
 
 
 ---
 
 ## 6. Incident Handling and Escalation
 
-**Answers:**
-
-* What constitutes an incident?
-* How are policy violations handled?
-* How is misuse investigated?
-* When is human intervention required?
-
-Purpose: define response to abnormal or risky behavior.
+This section of the document defines the incidents and escalation are handled.
 
 
 6.1 Incident Definition
 
-An incident includes:
--confirmed or suspected unauthorized access attempts
--policy circumvention attemps
--over exposure due to mis-aligned classification of data
--sytem failure affecting access enforcement
--governance control breakdown.
+For an event to be classified as an incident, any ONE of the following criteria SHALL be met:
+- confirmed or suspected unauthorized access attempts
+- attempts of policy circumvention.
+- over-exposure due to mis-aligned classification of data.
+- system failure affecting access enforcement.
+- governance control breakdown.
+
+Incidents SHALL be assessed for severity and escalated in accordance with the defined incident response procedure.
+
+
 
 6.2 Response Protocol
 
-Every incident requires:
--immediate containment
--evidence preservation
--root cause analysis
--corrective control implementation.
+Any incident SHALL follow these response protocols in all circumstances:
 
-Material incodents needs formal documentation and governanace reporting.
+- immediate containment.
+- evidence preservation.
+- root cause analysis.
+- corrective control implementation.
+
+Material incidents SHALL require formal documentation and governance reporting.
 
 6.3 Escalation
-Escalation pather is based on severity
+The escalation path SHALL depend on incident severity.
 
-Security-> Risk and Compliance -> executive sponsor
+At minimum, escalation SHALL follow: Security -> Risk and Compliance -> Executive Sponsor.
 
 
 ---
