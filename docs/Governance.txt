@@ -309,32 +309,23 @@ At minimum, escalation SHALL follow: Security -> Risk and Compliance -> Executiv
 
 ## 7. Privacy and Data Protection
 
-**Answers:**
-
-* What data is explicitly not stored?
-* How is sensitive data protected?
-* How is data minimization enforced?
-* How are privacy risks reduced?
-
-Purpose: demonstrate privacy-by-design.
-
-Data minimization and privacy by design applies to Hermes
+Hermes SHALL apply privacy-by-design and data minimization to reduce privacy risk and limit unnecessary data handling.
 
 7.1 Data Minimization
-The system:
-- stores only metadata required for accountability
-- avoids retention of any sensitive content
-- prevents peristent storage of user queries unless required for audit
+The system SHALL:
+- store only metadata required for accountability and auditability.
+- avoid retention of sensitive data or content by default.
+- prevent persistent storage of user queries unless required for approved audit/security purpose.
 
 
 7.2 Protection Standards
 
-Sensitive governance data is treated as high-value information asset.
+Sensitive governance, security and audit data SHALL be treated as a high-value information asset.
 
-Access is:
--Role-bound
--Reviewable
--Revocable
+Access SHALL be periodically reviewed at a defined interval by authorized personnel in accordance with governance oversight. Such access rights SHALL be revoked when no longer required. 
+
+Data SHALL be protected from unauthorized modification, disclosure or deletion.
+
 
 7.3 Risk Reduction Mechanisms
 
