@@ -14,7 +14,7 @@ When a valid user makes a request system take in the immutable id, checks the sy
 	c.What happens if identity resolution fails
 This connects to — but does not redefine — the access model.
 
-The users ID is validate using IAM, the results from IAM is the source of truth. Once all the security attribute and immutable ID is confirmed only then the identity is valid. As the IAM already validate the user, Authentication establishes identity; authorisation is evaluated later. This step produces an authoritative identity context for the request. Only the user/requester is trusted and thats all
+The users ID is validate using IAM, the results from IAM is the source of truth. Once all the security attribute and immutable ID is confirmed only then the identity is valid. As the IAM already validate the user, Authentication establishes identity; authorisation is evaluated later. This step produces an authoritative identity context for the request. Only the user/requester is trusted and thats all.
 
 3️. How is the request evaluated for sensitivity or intent?
 	a. Is the question about general knowledge or sensitive data?

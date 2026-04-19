@@ -1,0 +1,14 @@
+The best order from here is:
+
+first create a high-level logical architecture diagram
+then create a request lifecycle sequence diagram
+then optionally create a deployment / platform architecture diagram
+
+The first one answers:
+What are the parts of Hermes?
+
+The second answers:
+What happens step by step when a user asks something?
+
+The third answers:
+Where does Hermes live technically?
